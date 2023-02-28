@@ -1,0 +1,8 @@
+﻿<maui:MauiWinUIApplication
+    x:Class="TOVA_APP_ASOCIADOS.WinUI.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:maui="using:Microsoft.Maui"
+    xmlns:local="using:TOVA_APP_ASOCIADOS.WinUI">
+
+</maui:MauiWinUIApplication>

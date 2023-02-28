@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             x:Class="TOVA_APP_ASOCIADOS.Views.ControlVersion.ActualizacionPage">
+    <StackLayout>
+
+        <Label 
+            x:Name="Titulo" 
+            FontSize="20" 
+            FontAttributes="Bold"
+            Text="Actualización disponible" 
+            HorizontalOptions="CenterAndExpand"
+            Padding="10,30"
+            HorizontalTextAlignment="Center" /> 
+        <Label 
+            x:Name="Subtitulo" 
+            FontSize="14"
+            Text="" 
+            HorizontalOptions="CenterAndExpand" 
+            Padding="10"
+            HorizontalTextAlignment="Center" />
+
+        <StackLayout x:Name="ActualizacionLayout">
+            <skia:SKLottieView
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       VerticalOptions="CenterAndExpand"
+                       Source="update-animation.json"
+                       RepeatCount="-1"
+                       HeightRequest="200" />
+        </StackLayout>
+
+        <Button 
+            x:Name="BtnActualizacion" 
+            Text="Comenzar actualización" 
+            FontSize="16"
+            Margin="10,20"
+            HorizontalOptions="CenterAndExpand"
+            BackgroundColor="DarkSlateBlue"
+            Clicked="BtnActualizacion_Clicked" />
+
+    </StackLayout>
+</ContentPage>
