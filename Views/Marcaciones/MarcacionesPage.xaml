@@ -40,8 +40,8 @@
                             
                         </StackLayout>
                         <StackLayout>
-                            <Label Text="Hola, Jose" TextColor="White" FontSize="20" FontAttributes="Bold" />
-                            <Label Text="Usuario: rgonzalez" TextColor="White" FontSize="16" />
+                            <Label Text="Hola, Daniel" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                            <Label Text="Usuario: danielperez" TextColor="White" FontSize="16" />
                             <Label Text="Base: B50" TextColor="White" FontSize="17" />
                         </StackLayout>
                     </HorizontalStackLayout>
@@ -57,64 +57,105 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="20,20,0,0" />
             </Border.StrokeShape>
-            
-            <Frame VerticalOptions="StartAndExpand">
 
-                <helpers:ExtendedListView  VerticalOptions="FillAndExpand"
-                                   ItemsSource="{Binding Data}"
-                                   HasUnevenRows="True"
-                                   LoadMoreCommand="{Binding OnLoadMoreCommand}"
-                                   SeparatorVisibility="None">
-                    <helpers:ExtendedListView.Header>
-                        <StackLayout>
-                            <Image Source="ic_start"
-                           HorizontalOptions="Start"
-                           WidthRequest="24"
-                           Margin="26,0,0,0"/>
-                        </StackLayout>
-                    </helpers:ExtendedListView.Header>
-                    <helpers:ExtendedListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid Margin="32,0,0,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="32"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <BoxView Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" 
-                                         VerticalOptions="FillAndExpand" HorizontalOptions="Start"
-                                         WidthRequest="1" BackgroundColor="Navy"/>
-                                    <BoxView Grid.Row="0" Grid.Column="0"
-                                         HorizontalOptions="FillAndExpand" VerticalOptions="Center"
-                                         HeightRequest="1" Color="Navy"/>
-                                    <Label Grid.Row="0" Grid.Column="1"
-                                       TextColor="Navy">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="{Binding UserName}" FontAttributes="Bold"/>
-                                                <Span Text="{Binding Date, StringFormat='{0: MM.d.yy}'}"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                       Margin="16,4,16,16"
-                                       Text="{Binding Description}"/>
-                                    <Image Source="ic_timeline_dot"
-                                       HeightRequest="12"
-                                       HorizontalOptions="Start"
-                                       Margin="-6,0,0,0"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </helpers:ExtendedListView.ItemTemplate>
-                    <helpers:ExtendedListView.Footer>
-                        <ActivityIndicator/>
-                    </helpers:ExtendedListView.Footer>
-                </helpers:ExtendedListView>
+            <Frame VerticalOptions="StartAndExpand" Padding="0,10">
+                <StackLayout>
+
+                    <!-- Titulo -->
+                    <Label Text="Mis marcaciones" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold" Margin="0,10" TextColor="#333"></Label>
+                    
+                    <!-- Botones de marcación -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Margin="0,10">
+                        <Button Text="Entrada" Margin="10,0" Padding="15,10" FontSize="16" FontAttributes="Bold" Background="Green"></Button>
+                        <Button Text="Salida"  Margin="10,0" Padding="15,10" FontSize="16" FontAttributes="Bold" Background="Red"></Button>
+                    </HorizontalStackLayout>
+                    
+                    
+                    <!-- Historial de marcacion -->
+                    <helpers:ExtendedListView
+                        x:Name="timelineListView"
+                        VerticalOptions="FillAndExpand"
+                        ItemsSource="{Binding TimelineItems}"
+                        HasUnevenRows="True"
+                        SeparatorVisibility="None">
+                    
+                        <helpers:ExtendedListView.Header>
+                            <StackLayout>
+                                <Image 
+                                    Source="ic_start"
+                                    HorizontalOptions="Start"
+                                    WidthRequest="24"
+                                    Margin="26,10,10,15" />
+                            </StackLayout>
+                        </helpers:ExtendedListView.Header>
+                    
+                        <helpers:ExtendedListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Margin="32,0,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image 
+                                            Source="ic_timeline_dot"
+                                            HeightRequest="12"
+                                            HorizontalOptions="Start"
+                                            Margin="0,0,0,0" />
+                                    
+                                        <BoxView 
+                                            Grid.Row="0" 
+                                            Grid.Column="0" 
+                                            Grid.RowSpan="3" 
+                                            Margin="5,0,10,0"
+                                            VerticalOptions="FillAndExpand" 
+                                            HorizontalOptions="Start"
+                                            WidthRequest="2" 
+                                            BackgroundColor="Navy" />
+
+                                        <Label 
+                                            Grid.Row="0" 
+                                            Grid.Column="1" 
+                                            TextColor="Navy" 
+                                            Padding="10, 0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding TipoMarcacion}" FontAttributes="Bold" />
+                                                    <Span Text="{Binding Hora}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        
+                                        <Label 
+                                            Grid.Row="1" 
+                                            Grid.Column="1" 
+                                            Grid.ColumnSpan="2"
+                                            Margin="10,0"
+                                            Text="{Binding Descripcion} "/>
+
+                                        <Label 
+                                            Grid.Row="2" 
+                                            Grid.Column="1" 
+                                            Grid.ColumnSpan="2"
+                                            Margin="10,0,0,10"
+                                            Text="{Binding GeoReferencia}" />
+
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </helpers:ExtendedListView.ItemTemplate>
+                        <helpers:ExtendedListView.Footer>
+                            <ActivityIndicator/>
+                        </helpers:ExtendedListView.Footer>
+                    </helpers:ExtendedListView>
+
+                </StackLayout>
                 
             </Frame>
         </Border>
