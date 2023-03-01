@@ -55,5 +55,22 @@ public partial class ConfiguracionPage : ContentPage
         }
     }
 
+    // Verificar si esta configurado el tipo de dispositivo
+    private async void VerificarTipoDispositivo()
+    {
+        bool DispositivoConfigurado = Preferences.Default.Get("dispositivo_configurado", false);
+        if (DispositivoConfigurado)
+        {
+            await Navigation.PushModalAsync(new LoginPage(), false);
+        }
+    }
+
+
+    // Verificar esta configurado
+    protected override void OnAppearing()
+    {
+        VerificarTipoDispositivo();
+        base.OnAppearing();
+    }
 
 }

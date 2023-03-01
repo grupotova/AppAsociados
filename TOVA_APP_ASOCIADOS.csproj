@@ -78,10 +78,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Services\Marcaciones\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="Views\ConfiguracionPage.xaml.cs">
 	    <DependentUpon>ConfiguracionPage.xaml</DependentUpon>
 	  </Compile>

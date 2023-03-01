@@ -14,6 +14,7 @@
         public static string ProxyRestUrl = $"{Scheme}://{HostUrl}/api/proxy";
         public static string VPreciosRestUrl = $"{Scheme}://{HostUrl}/api/appvprecios";
         public static string ControlVersionRestUrl = $"{Scheme}://{HostUrl}/api/control_versiones";
+        public static string AsociadosRestUrl = $"{Scheme}://{HostUrl}/api/appasociados";
 
     }
 }

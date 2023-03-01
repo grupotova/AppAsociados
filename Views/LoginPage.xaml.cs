@@ -48,7 +48,8 @@ public partial class LoginPage : ContentPage
             Contrasena.Text = "";
 
             // Redireccionar
-            await Navigation.PushAsync(new Views.Marcaciones.MarcacionesPage());
+            Utilidades.PrintLogStatic(ViewName, "Redireccion a Marcacion.");
+            await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
         } else
         {
             await DisplayAlert("Acceso", MensajeAutentificacion, "Ok");
@@ -146,6 +147,7 @@ public partial class LoginPage : ContentPage
                             respStatus = true;
                             centrosCostosAlias = centrosCostosAlias.Substring(0, centrosCostosAlias.Length - 1);
 
+                            Preferences.Default.Set("guc_configurado", true);
                             Preferences.Default.Set("guc_login_id", app.Usuario_ID.ToString());
                             Preferences.Default.Set("guc_login", login.ToLower());
                             Preferences.Default.Set("guc_nombre", app.Nombre);
@@ -213,7 +215,7 @@ public partial class LoginPage : ContentPage
             Utilidades.PrintLogStatic(ViewName, "Existe una nueva version del APP v" + _items.ultimaVersion + ", redirecionando...");
 
             // Redireccionar
-            await Navigation.PushAsync(new Views.ControlVersion.ActualizacionPage(_items.androidUrlDownload));
+            await Navigation.PushAsync(new ControlVersion.ActualizacionPage(_items.androidUrlDownload));
         } else
         {
             Utilidades.PrintLogStatic(ViewName, "El APP esta actualizado a la última version.");
@@ -227,5 +229,23 @@ public partial class LoginPage : ContentPage
         permissionStatus = await Permissions.RequestAsync<Permissions.Battery>();
         permissionStatus = await Permissions.RequestAsync<Permissions.StorageRead>();
         permissionStatus = await Permissions.RequestAsync<Permissions.StorageWrite>();
+    }
+
+    // Verificar si esta configurado el tipo de dispositivo
+    private async void VerificarGUC()
+    {
+        bool GucConfigurado = Preferences.Default.Get("guc_configurado", false);
+        if (GucConfigurado)
+        {
+            await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
+        }
+    }
+
+
+    // Verificar esta configurado
+    protected override void OnAppearing()
+    {
+        VerificarGUC();
+        base.OnAppearing();
     }
 }
