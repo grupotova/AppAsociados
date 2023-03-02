@@ -101,6 +101,6 @@
 	  </MauiXaml>
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadGenericExceptionInfoBarTOVA_APP_ASOCIADOSHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadGenericExceptionInfoBarTOVA_APP_ASOCIADOSHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionTOVA_APP_ASOCIADOSHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

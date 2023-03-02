@@ -237,6 +237,7 @@ public partial class LoginPage : ContentPage
         bool GucConfigurado = Preferences.Default.Get("guc_configurado", false);
         if (GucConfigurado)
         {
+            Utilidades.PrintLogStatic(ViewName, "GUC Configurado, forzar redireccion.");
             await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
         }
     }

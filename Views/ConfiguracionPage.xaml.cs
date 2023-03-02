@@ -41,7 +41,7 @@ public partial class ConfiguracionPage : ContentPage
                 Preferences.Default.Set("dispositivo_tipo", TipoDispositivo);
                 Preferences.Default.Set("dispositivo_configurado", true);
                 Utilidades.PrintLogStatic(ViewName, "Guardando preferencia - dispositivo_tipo = " + selectedValue);
-                await Navigation.PushModalAsync(new LoginPage(), false);
+                await Navigation.PushAsync(new LoginPage());
                 break;
 
             case "Celular Corporativo":
@@ -49,7 +49,7 @@ public partial class ConfiguracionPage : ContentPage
                 Preferences.Default.Set("dispositivo_tipo", TipoDispositivo);
                 Preferences.Default.Set("dispositivo_configurado", true);
                 Utilidades.PrintLogStatic(ViewName, "Guardando preferencia - dispositivo_tipo = " + selectedValue);
-                await Navigation.PushModalAsync(new LoginPage(), false);
+                await Navigation.PushAsync(new LoginPage());
                 break;
 
         }
@@ -61,7 +61,8 @@ public partial class ConfiguracionPage : ContentPage
         bool DispositivoConfigurado = Preferences.Default.Get("dispositivo_configurado", false);
         if (DispositivoConfigurado)
         {
-            await Navigation.PushModalAsync(new LoginPage(), false);
+            Utilidades.PrintLogStatic(ViewName, "Dispositivo configurado, forzar redireccion.");
+            await Navigation.PushAsync(new LoginPage());
         }
     }
 

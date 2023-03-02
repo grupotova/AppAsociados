@@ -1,4 +1,5 @@
-﻿using TOVA_APP_ASOCIADOS.Models.Marcaciones;
+﻿using TOVA_API.Models.AppAsociados.V1;
+using TOVA_APP_ASOCIADOS.Models.Marcaciones;
 
 namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
 {
@@ -7,5 +8,7 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
         Task<List<BasesAll_Out>> GetBasesAllAsync();
 
         Task<List<GestionMarcasAll_Out>> GetMarcacionesAllAsync(int UsuarioId);
+
+        Task<List<GestionMarcas_Out>> PostMarcacionesAsync(GestionMarcas_In _InModel);
     }
 }

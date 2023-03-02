@@ -27,7 +27,7 @@
 
         <!-- Header -->
         <StackLayout Padding="15">
-            <Label Text="Version 1.0.0C" FontSize="13" TextColor="White" HorizontalTextAlignment="End"></Label>
+            <Label x:Name="HeaderControlVersion" Text="Version 1.0.0C" FontSize="13" TextColor="White" HorizontalTextAlignment="End"></Label>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -40,9 +40,11 @@
                             
                         </StackLayout>
                         <StackLayout>
-                            <Label Text="Hola, Daniel" TextColor="White" FontSize="20" FontAttributes="Bold" />
-                            <Label Text="Usuario: danielperez" TextColor="White" FontSize="16" />
-                            <Label Text="Base: B50" TextColor="White" FontSize="17" />
+                            <Label x:Name="HeaderLinea1" Text="Hola, Desconocido" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                            <Label x:Name="HeaderLinea2" Text="Usuario: Desconocido" TextColor="White" FontSize="16" />
+                            <!--
+                            <Label x:Name="HeaderLinea3" Text="Base: B50" TextColor="White" FontSize="17" />
+                            -->
                         </StackLayout>
                     </HorizontalStackLayout>
                 </StackLayout>
@@ -66,14 +68,14 @@
                     
                     <!-- Botones de marcación -->
                     <HorizontalStackLayout HorizontalOptions="Center" Margin="0,10">
-                        <Button Text="Entrada" Margin="10,0" Padding="15,10" FontSize="16" FontAttributes="Bold" Background="Green"></Button>
-                        <Button Text="Salida"  Margin="10,0" Padding="15,10" FontSize="16" FontAttributes="Bold" Background="Red"></Button>
+                        <Button x:Name="BotonMarcacionEntrada" Text="Entrada" Margin="10,0" Padding="15,10" FontSize="16" FontAttributes="Bold" Background="Green" Clicked="BotonMarcacionEntrada_Clicked"></Button>
+                        <Button x:Name="BotonMarcacionSalida" Text="Salida"  Margin="10,0" Padding="15,10" FontSize="16" FontAttributes="Bold" Background="Red" Clicked="BotonMarcacionSalida_Clicked"></Button>
                     </HorizontalStackLayout>
                     
                     
                     <!-- Historial de marcacion -->
                     <helpers:ExtendedListView
-                        x:Name="timelineListView"
+                        x:Name="TimelineListView"
                         VerticalOptions="FillAndExpand"
                         ItemsSource="{Binding TimelineItems}"
                         HasUnevenRows="True"
