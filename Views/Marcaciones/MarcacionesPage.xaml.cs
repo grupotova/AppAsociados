@@ -15,6 +15,7 @@ public partial class MarcacionesPage : ContentPage
     ObservableCollection<TimelineCollection> TimeLineItem = new ObservableCollection<TimelineCollection>();
     public ObservableCollection<TimelineCollection> _TimeLineItem { get { return TimeLineItem; } }
     readonly IGestionMarcas _IGestionMarcas = new GestionMarcas();
+    public Firebase_rtdb db = new Firebase_rtdb();
 
     public MarcacionesPage()
 	{
@@ -22,6 +23,9 @@ public partial class MarcacionesPage : ContentPage
 
         // Obtener Header
         ObtenerHeader();
+
+        // Firebase
+        // db.NuevaPosicion();
     }
 
 
@@ -34,10 +38,9 @@ public partial class MarcacionesPage : ContentPage
         HeaderLinea1.Text = "Hola, " + GUCNombre;
         HeaderLinea2.Text = "Usuario: " + GUCNombreUsuario;
 
-        /*
-        double Distancia = GPSHelper.CalculateDistance(8.979578576274397, -79.52451240499491, 8.979436836775932, -79.52436488350538);
-        Utilidades.PrintLogStatic(ViewName, $"La distancia entre punto es {Distancia}");
-        */
+        // Version del APP
+        string TipoDispositivo = Preferences.Default.Get("dispositivo_tipo", "D");
+        HeaderControlVersion.Text = "Versión: v" + VersionTracking.CurrentVersion + TipoDispositivo; 
     }
 
     // INFO: Historial de Marcaciones
@@ -59,9 +62,9 @@ public partial class MarcacionesPage : ContentPage
                 _TimeLineItem.Add(new TimelineCollection()
                 {
                     TipoMarcacion = item.tipoMarcacion == 1 ? "Entrada – " : "Salida – ",
-                    Descripcion = item.descripcion,
-                    GeoReferencia = item.coordenadas_GPS,
-                    Hora = item.fecha.ToString()
+                    Descripcion = "Lugar: " + item.baseNombre,
+                    GeoReferencia = "Georeferencia: " + item.coordenadas_GPS,
+                    Hora = item.fechaCompleta.ToString()
                 });
             }
 
@@ -81,6 +84,9 @@ public partial class MarcacionesPage : ContentPage
         } else
         {
             TimelineListView.IsVisible = false;
+
+            // No tiene marcacaciones, activar solo el boton de entrada.
+            SwitchBotones(1);
         }
     }
 
@@ -92,8 +98,8 @@ public partial class MarcacionesPage : ContentPage
 
             var loadingPopup = new Widgets.LoadingPopup();
             this.ShowPopup(loadingPopup);
-            string ObtenerUbicacionActual = await ObtenerUbicacion();
-            string MarcacionDescripcion = "Desconocido";
+            string UbicacionActualGPS = await ObtenerUbicacion();
+            string MarcacionBase = "DESCONOCIDO";
 
             // Obtener listado de las Bases Georreferenciadas
             Utilidades.PrintLogStatic(ViewName, "Obteniendo Georreferencias.");
@@ -101,21 +107,21 @@ public partial class MarcacionesPage : ContentPage
             foreach (var itemBase in _itemsBasesAll)
             {
                 // Base
-                string CoordenadasBase = itemBase.coordenadasGPS.Trim();
+                string CoordenadasBase = itemBase.coordenadas_GPS.Trim();
                 string[] CoordenadasBaseSplit = CoordenadasBase.Split(',');
                 double lat1 = double.Parse(CoordenadasBaseSplit[0]);
                 double lon1 = double.Parse(CoordenadasBaseSplit[1]);
 
                 // GPS Actual
-                string[] CoordenadasGPSSplit = ObtenerUbicacionActual.Trim().Split(',');
+                string[] CoordenadasGPSSplit = UbicacionActualGPS.Trim().Split(',');
                 double lat2 = double.Parse(CoordenadasGPSSplit[0]);
                 double lon2 = double.Parse(CoordenadasGPSSplit[1]);
 
                 double DistanciaActual = GPSHelper.CalculateDistance(lat1, lon1, lat2, lon2);
                 if (DistanciaActual < 1000.00)
                 {
-                    MarcacionDescripcion = itemBase.nombre;
-                    Utilidades.PrintLogStatic(ViewName, $"Esta en base {itemBase.nombre}");
+                    MarcacionBase = itemBase.@base;
+                    Utilidades.PrintLogStatic(ViewName, $"Esta en base: {itemBase.@base} con el nombre: {itemBase.nombre}");
                     break;
                 }
             }
@@ -127,9 +133,9 @@ public partial class MarcacionesPage : ContentPage
             var _model = new GestionMarcas_In()
             {
                 UsuarioId = UsuarioId,
-                Descripcion = "Lugar: " + MarcacionDescripcion,
+                Base = MarcacionBase,
                 TipoMarcacion = TipoMarcacion,
-                CoordenadasGPS = "Georeferencia: " + ObtenerUbicacionActual
+                CoordenadasGPS = UbicacionActualGPS
             };
             var _items = await _IGestionMarcas.PostMarcacionesAsync(_model);
 
