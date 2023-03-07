@@ -19,7 +19,7 @@ public partial class LoginPage : ContentPage
         CambiarEstadoBotonIngresar(false);
 
         // App Version
-        AppVersion.Text = "v" + VersionTracking.CurrentVersion;
+        AppVersion.Text = Constants.VersionApp;
 
         // Solicitar Permisos
         // SolicitarPermisosApp();

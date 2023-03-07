@@ -3,6 +3,7 @@
 	<domain-config cleartextTrafficPermitted="true">
 		<domain includeSubdomains="true">192.168.58.50</domain>
 		<domain includeSubdomains="true">192.168.10.63</domain>
+		<domain includeSubdomains="true">192.168.10.213</domain>
 		<domain includeSubdomains="true">media-amazon.com</domain>
 		<domain includeSubdomains="true">grupotova.local</domain>
 		<domain includeSubdomains="true">m.media-amazon.com</domain>

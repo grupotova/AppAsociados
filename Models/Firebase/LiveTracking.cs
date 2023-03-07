@@ -2,7 +2,7 @@
 {
     public class LiveTracking
     {
-        public string Usuario { get; set; }
         public string CoordenadasGPS { get; set; }
+        public DateTime UltimaActualizacion { get; set; }
     }
 }

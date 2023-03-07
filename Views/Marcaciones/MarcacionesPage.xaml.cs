@@ -56,6 +56,7 @@ public partial class MarcacionesPage : ContentPage
         {
             _TimeLineItem.Clear();
             TimelineListView.IsVisible = true;
+            NoHayListado.IsVisible = false;
 
             foreach (var item in _items)
             {
@@ -84,6 +85,7 @@ public partial class MarcacionesPage : ContentPage
         } else
         {
             TimelineListView.IsVisible = false;
+            NoHayListado.IsVisible = true;
 
             // No tiene marcacaciones, activar solo el boton de entrada.
             SwitchBotones(1);
@@ -216,9 +218,11 @@ public partial class MarcacionesPage : ContentPage
         return GPS;
     }
 
+
     // OnAppearing
     protected async override void OnAppearing()
     {
+
         base.OnAppearing();
         bool resultadoPermisosGPS = await SolicitarPermisos();
         InitialGestionMarcacion();
@@ -248,5 +252,12 @@ public partial class MarcacionesPage : ContentPage
         {
             await DisplayAlert("Error", "Es necesario el permiso GPS para realizar esta operación.", "Cerrar");
         }
+    }
+
+    // INFO: Abrir Popup de Google Maps
+    private void ViewCell_Tapped(object sender, EventArgs e)
+    {
+        var loadingPopup = new Widgets.LoadingPopup();
+        this.ShowPopup(loadingPopup);
     }
 }

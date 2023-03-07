@@ -21,24 +21,29 @@
 
               
                 <!-- Datos de ingresos -->
-                <Frame VerticalOptions="End" BackgroundColor="White" CornerRadius="10" Padding="10" Margin="0">
-                    <StackLayout>
-                        <Label HorizontalTextAlignment="Center" FontSize="18" FontAttributes="Bold" TextColor="Black" Margin="0,05" Text="Ingresa tus credenciales" />
+                <Border VerticalOptions="End">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20,20,0,0" />
+                    </Border.StrokeShape>
+                    <Frame VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="10" Margin="0">
+                        <StackLayout>
+                            <Label HorizontalTextAlignment="Center" FontSize="18" FontAttributes="Bold" TextColor="Black" Margin="0,05" Text="Ingresa tus credenciales" />
 
-                        <Frame Background="White" Margin="0,5" Padding="15,3" CornerRadius="10">
-                            <Entry x:Name="Usuario" TextColor="Black" FontSize="16" Placeholder="Usuario" PlaceholderColor="#515050" TextChanged="Usuario_TextChanged" toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference Contrasena}" />
-                        </Frame>
+                            <Frame Background="White" Margin="0,5" Padding="15,3" CornerRadius="10">
+                                <Entry x:Name="Usuario" TextColor="Black" FontSize="16" Placeholder="Usuario" PlaceholderColor="#515050" TextChanged="Usuario_TextChanged" toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference Contrasena}" />
+                            </Frame>
 
-                        <Frame Background="White" Margin="0,5" Padding="15,3" CornerRadius="10">
-                            <Entry x:Name="Contrasena" TextColor="Black" FontSize="16" IsPassword="True" Placeholder="Contraseña" PlaceholderColor="#515050" TextChanged="Contrasena_TextChanged" Completed="BotonIngresar_Clicked" />
-                        </Frame>
+                            <Frame Background="White" Margin="0,5" Padding="15,3" CornerRadius="10">
+                                <Entry x:Name="Contrasena" TextColor="Black" FontSize="16" IsPassword="True" Placeholder="Contraseña" PlaceholderColor="#515050" TextChanged="Contrasena_TextChanged" Completed="BotonIngresar_Clicked" />
+                            </Frame>
 
-                        <Button x:Name="BotonIngresar" Text="Ingresar" BackgroundColor="DarkGray" TextColor="White" FontSize="16" FontAttributes="Bold" Margin="0,3" Clicked="BotonIngresar_Clicked" />
-                        
-                        <!-- App Version -->
-                        <Label x:Name="AppVersion" TextColor="Black" HorizontalTextAlignment="Center" FontSize="16" Margin="0,5"></Label>
-                    </StackLayout>
-                </Frame>
+                            <Button x:Name="BotonIngresar" Text="Ingresar" BackgroundColor="DarkGray" TextColor="White" FontSize="16" FontAttributes="Bold" Margin="0,3" Clicked="BotonIngresar_Clicked" />
+
+                            <!-- App Version -->
+                            <Label x:Name="AppVersion" TextColor="Black" HorizontalTextAlignment="Center" FontSize="16" Margin="0,5"></Label>
+                        </StackLayout>
+                    </Frame>
+                </Border>
             </StackLayout>
         </ScrollView>
     </StackLayout>

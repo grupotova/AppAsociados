@@ -7,6 +7,8 @@
         // WebService - Produccion
         // public static string HostUrl = "192.168.10.213:8081";
 
+        public static string VersionAppLetra = HostUrl == "192.168.10.213:8081" ? "P" : "D";
+        public static string VersionApp = "v" + VersionTracking.CurrentVersion + VersionAppLetra;
         public static string APPNombre = "TOVA_APP_ASOCIADOS";
         public static string GUCApllicacionCodigo = "ACI";
         public static string Scheme = "http"; // https or http
