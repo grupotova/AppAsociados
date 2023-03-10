@@ -1,13 +1,15 @@
 using CommunityToolkit.Maui.Views;
 using TOVA_APP_ASOCIADOS.Helpers;
+using TOVA_APP_ASOCIADOS.Services.Auth;
 using TOVA_APP_ASOCIADOS.Services.ControlVersion;
 
 namespace TOVA_APP_ASOCIADOS.Views;
 
 public partial class LoginPage : ContentPage
 {
-    readonly IControlDeVersion iControlDeVersion = new ControlDeVersion();
-    public string MensajeAutentificacion = "";
+    private readonly IControlDeVersion iControlDeVersion = new ControlDeVersion();
+    private readonly ILoginService iloginService = new LoginService();
+    private string MensajeAutentificacion = "";
     private string ViewName = "LOGIN";
     private PermissionStatus permissionStatus;
 
@@ -97,7 +99,8 @@ public partial class LoginPage : ContentPage
         }
     }
 
-    // INFO: Autentifcacion de usuario (GUCService)
+	// INFO: Autentifcacion de usuario (GUCService)
+	/*
     private async Task<bool> Autenticacion(string login, string pass, string aplicacion)
     {
         string respService = null;
@@ -187,9 +190,46 @@ public partial class LoginPage : ContentPage
         Utilidades.PrintLogStatic(ViewName, "Repuesta - " + MensajeAutentificacion);
         return respStatus;
     }
+    */
 
-    // INFO: Validar cambio de textos en los Entry (Usario o contrasena) para habilitar o desactivar el boton de ingresar
-    private void Usuario_TextChanged(object sender, TextChangedEventArgs e)
+    // INFO: Autentificacion temporal por TOVA API
+	private async Task<bool> Autenticacion(string Usuario, string Contrasena, string AplicacionCodigo)
+	{
+		Utilidades.PrintLogStatic(ViewName, "Validando version del app = " + VersionTracking.CurrentVersion);
+
+		// Ejecutar API
+		var _items = await iloginService.GetLogin(Usuario, Contrasena);
+
+		// Respuesta del Auth
+		if (_items.status == true)
+		{
+			var centrosCostosAlias = _items.basesRelacionadas.Substring(0, _items.basesRelacionadas.Length - 1);
+			Preferences.Default.Set("guc_configurado", true);
+			Preferences.Default.Set("guc_login_id", _items.usuarioId);
+			Preferences.Default.Set("guc_login", _items.usuario);
+			Preferences.Default.Set("guc_nombre", _items.nombre);
+			Preferences.Default.Set("guc_apellido", _items.apellido);
+			Preferences.Default.Set("guc_numero_asociado",_items.numeroAsociado);
+			Preferences.Default.Set("guc_email", _items.email);
+			Preferences.Default.Set("guc_rol", _items.rol);
+			Preferences.Default.Set("guc_rol_id", _items.rolId);
+			Preferences.Default.Set("guc_rol_codigo", _items.rolCodigo);
+			Preferences.Default.Set("guc_bases_alias", centrosCostosAlias);
+			Preferences.Default.Set("guc_permisos_vistas", _items.vistasPermisos);
+
+			return true;
+		}
+		else
+		{
+            MensajeAutentificacion = _items.mensajeError;
+			Utilidades.PrintLogStatic(ViewName, "Error: " + _items.mensajeError);
+            return false;
+		}
+	}
+
+
+	// INFO: Validar cambio de textos en los Entry (Usario o contrasena) para habilitar o desactivar el boton de ingresar
+	private void Usuario_TextChanged(object sender, TextChangedEventArgs e)
     {
         ValidarEntryUsuarioYContrasena();
     }
@@ -232,7 +272,7 @@ public partial class LoginPage : ContentPage
     }
 
     // Verificar si esta configurado el tipo de dispositivo
-    private async void VerificarGUC()
+    private async void VerificarGUCSesion()
     {
         bool GucConfigurado = Preferences.Default.Get("guc_configurado", false);
         if (GucConfigurado)
@@ -246,7 +286,7 @@ public partial class LoginPage : ContentPage
     // Verificar esta configurado
     protected override void OnAppearing()
     {
-        VerificarGUC();
+		VerificarGUCSesion();
         base.OnAppearing();
     }
 }

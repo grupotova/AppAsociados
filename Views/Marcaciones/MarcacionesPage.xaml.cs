@@ -5,7 +5,6 @@ using TOVA_APP_ASOCIADOS.Helpers;
 using TOVA_APP_ASOCIADOS.Models.Marcaciones;
 using TOVA_APP_ASOCIADOS.Services.Marcaciones;
 
-
 namespace TOVA_APP_ASOCIADOS.Views.Marcaciones;
 
 public partial class MarcacionesPage : ContentPage
@@ -15,26 +14,28 @@ public partial class MarcacionesPage : ContentPage
     ObservableCollection<TimelineCollection> TimeLineItem = new ObservableCollection<TimelineCollection>();
     public ObservableCollection<TimelineCollection> _TimeLineItem { get { return TimeLineItem; } }
     readonly IGestionMarcas _IGestionMarcas = new GestionMarcas();
-    public Firebase_rtdb db = new Firebase_rtdb();
+    public FirebaseRTDB db = new FirebaseRTDB();
 
     public MarcacionesPage()
 	{
 		InitializeComponent();
 
         // Obtener Header
-        ObtenerHeader();
+        SwitchBotones(3); // Desactivar boton en iniciar
+        ObtenerDatosHeader();
 
         // Firebase
         // db.NuevaPosicion();
     }
 
 
-    // INFO: Obtener Header
-    private void ObtenerHeader()
+    // INFO: Obtener datos del Header
+    private void ObtenerDatosHeader()
     {
         string GUCNombreUsuario = Preferences.Default.Get("guc_login", "Desconocido");
         string GUCNombre = Preferences.Default.Get("guc_nombre", "Desconocido");
 
+        // Linea de Header
         HeaderLinea1.Text = "Hola, " + GUCNombre;
         HeaderLinea2.Text = "Usuario: " + GUCNombreUsuario;
 
@@ -44,7 +45,7 @@ public partial class MarcacionesPage : ContentPage
     }
 
     // INFO: Historial de Marcaciones
-    private async void InitialGestionMarcacion()
+    private async void HistoralGestionMarcacion()
     {
         string _usuarioId = Preferences.Default.Get("guc_login_id", "-1");
         int UsuarioId = int.Parse(_usuarioId);
@@ -82,8 +83,8 @@ public partial class MarcacionesPage : ContentPage
             }
 
 
-        } else
-        {
+        } 
+        else {
             TimelineListView.IsVisible = false;
             NoHayListado.IsVisible = true;
 
@@ -92,7 +93,7 @@ public partial class MarcacionesPage : ContentPage
         }
     }
 
-    // Marcacion
+    // INFO: Post de nueva marcacion
     private async void PostMarcacion(int TipoMarcacion)
     {
         bool ok = await SolicitarPermisos();
@@ -156,8 +157,8 @@ public partial class MarcacionesPage : ContentPage
                 await DisplayAlert("Error", "Al intentar registrar esta marcación. Por favor intente nuevamente", "Cerrar");
             }
 
-            // Inicializar el listview
-            InitialGestionMarcacion();
+            // Historial de gestion de marcacion
+            HistoralGestionMarcacion();
 
             // Cerrar widget loading
             loadingPopup.Close();
@@ -169,23 +170,33 @@ public partial class MarcacionesPage : ContentPage
     {
         switch (TipoMarcacion)
         {
+            // Activar solo boton de entrada
             case 1:
                 BotonMarcacionEntrada.IsEnabled = true;
                 BotonMarcacionEntrada.Background = Colors.Green;
                 BotonMarcacionSalida.IsEnabled = false;
                 BotonMarcacionSalida.Background = Colors.DarkGray;
                 break;
-
+            
+            // Activar solo boton de salida
             case 2:
                 BotonMarcacionSalida.IsEnabled = true;
                 BotonMarcacionSalida.Background = Colors.Red;
                 BotonMarcacionEntrada.IsEnabled = false;
                 BotonMarcacionEntrada.Background = Colors.DarkGray;
                 break;
+
+            // Desactivar todos los botones
+            case 3:
+                BotonMarcacionSalida.IsEnabled = false;
+                BotonMarcacionSalida.Background = Colors.DarkGray;
+                BotonMarcacionEntrada.IsEnabled = false;
+                BotonMarcacionEntrada.Background = Colors.DarkGray;
+                break;
         }
     }
 
-    // INFO: Solicitar el permiso
+    // INFO: Solicitar el permiso para registrar el GPS
     private async Task<bool> SolicitarPermisos()
     {
         bool statusPermission = true;
@@ -219,15 +230,6 @@ public partial class MarcacionesPage : ContentPage
     }
 
 
-    // OnAppearing
-    protected async override void OnAppearing()
-    {
-
-        base.OnAppearing();
-        bool resultadoPermisosGPS = await SolicitarPermisos();
-        InitialGestionMarcacion();
-    }
-
     // INFO: Boton de marcacion entrada
     private async void BotonMarcacionEntrada_Clicked(object sender, EventArgs e)
     {
@@ -259,5 +261,14 @@ public partial class MarcacionesPage : ContentPage
     {
         var loadingPopup = new Widgets.LoadingPopup();
         this.ShowPopup(loadingPopup);
+    }
+
+    // OnAppearing
+    protected async override void OnAppearing()
+    {
+
+        base.OnAppearing();
+        // bool resultadoPermisosGPS = await SolicitarPermisos();
+        HistoralGestionMarcacion();
     }
 }

@@ -1,20 +1,20 @@
 ﻿using System.Text.Json;
 using TOVA_APP_ASOCIADOS.Helpers;
-using TOVA_APP_ASOCIADOS.Models.ControlVersion;
+using TOVA_APP_ASOCIADOS.Models.Auth;
 
-namespace TOVA_APP_ASOCIADOS.Services.ControlVersion
+namespace TOVA_APP_ASOCIADOS.Services.Auth
 {
-    public class ControlDeVersion : IControlDeVersion
-    {
-        public string ViewName = "CONTROL DE VERSION - HTTP CLIENT";
+    public class LoginService : ILoginService
+	{
+        public string ViewName = "AUTH - HTTP CLIENT";
 
 
         // INFO: Obtener los parametros por codigo
-        public async Task<VerificarVersion_Out> GetControlVersionAsync(string AppNombre, string VersionActual)
+        public async Task<LoginModel> GetLogin(string Usuario, string Contrasena)
         {
             var _client = new HttpClient();
-            var _model = new VerificarVersion_Out();
-            string url = Constants.ControlVersionRestUrl + "/verificar?App="+ AppNombre + "&VersionActual=" + VersionActual;
+            var _model = new LoginModel();
+            string url = Constants.AuthRestUrl + "/login?Usuario=" + Usuario + "&Contrasena=" + Contrasena + "&AplicacionCodigo=" + Constants.GUCApllicacionCodigo;
 
             Utilidades.PrintLogStatic(ViewName, "Abriendo URL: " + url);
             try
@@ -26,7 +26,7 @@ namespace TOVA_APP_ASOCIADOS.Services.ControlVersion
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
                     string content = await response.Content.ReadAsStringAsync();
                     Utilidades.PrintLogStatic(ViewName, "httpResponse: " + content);
-                    _model = JsonSerializer.Deserialize<VerificarVersion_Out>(content);
+                    _model = JsonSerializer.Deserialize<LoginModel>(content);
                 } else
                 {
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
