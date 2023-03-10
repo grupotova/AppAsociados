@@ -42,7 +42,7 @@ public partial class LoginPage : ContentPage
         CambiarEstadoBotonIngresar(false);
 
         // INFO: Validar autentificacion de usuario
-        bool respAutentificacion = await Autenticacion(Usuario.Text, Contrasena.Text, Constants.GUCApllicacionCodigo);
+        bool respAutentificacion = await Autenticacion(Usuario.Text, Contrasena.Text, Constants.GUCAplicacionCodigo);
         if (respAutentificacion)
         {
             // Limpiar 
