@@ -6,37 +6,21 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
              x:Class="TOVA_APP_ASOCIADOS.Views.Widgets.MarcacionGMapsPopup">
-    
-    <StackLayout BackgroundColor="White" WidthRequest="300">
-        <StackLayout Padding="3">
+    <StackLayout BackgroundColor="White" WidthRequest="320">
+        <StackLayout Padding="5">
 
             <!-- Opcion de cerrar popup -->
             <StackLayout>
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="closePopup"></TapGestureRecognizer>
                 </StackLayout.GestureRecognizers>
-                <Label HorizontalOptions="End" HorizontalTextAlignment="End" FontFamily="MaterialDesignIcons" Text="{x:Static helpers:MaterialDesignIconsFonts.CloseCircle}" FontSize="36" TextColor="Black" />
+                <Label HorizontalOptions="End" HorizontalTextAlignment="End" FontFamily="MaterialDesignIcons" Text="{x:Static helpers:MaterialDesignIconsFonts.CloseCircle}" FontSize="28" TextColor="Black" />
             </StackLayout>
 
             <!-- Body - Popup -->
             <StackLayout Padding="8,4" HorizontalOptions="Center">
 
-                <maps:Map x:Name="map" MapType="Satellite">
-                    <x:Arguments>
-                        <MapSpan>
-                            <x:Arguments>
-                                <sensors:Location>
-                                    <x:Arguments>
-                                        <x:Double>36.9628066</x:Double>
-                                        <x:Double>-122.0194722</x:Double>
-                                    </x:Arguments>
-                                </sensors:Location>
-                                <x:Double>0.01</x:Double>
-                                <x:Double>0.01</x:Double>
-                            </x:Arguments>
-                        </MapSpan>
-                    </x:Arguments>
-                </maps:Map>
+                <WebView x:Name="webView" WidthRequest="300" HeightRequest="400" Source="https://www.google.com/maps/place/8%C2%B058'45.2%22N+79%C2%B031'28.3%22W/@8.9792128,-79.5267244,17z/data=!3m1!4b1!4m4!3m3!8m2!3d8.9792128!4d-79.5245357" />
 
             </StackLayout>
         </StackLayout>

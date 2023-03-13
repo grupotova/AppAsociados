@@ -78,10 +78,10 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
 
 
         // INFO: Insertar nueva marcacion
-        public async Task<List<GestionMarcas_Out>> PostMarcacionesAsync(GestionMarcas_In _InModel)
+        public async Task<GestionMarcas_Out> PostMarcacionesAsync(GestionMarcas_In _InModel)
         {
             var _client = new HttpClient();
-            var _model = new List<GestionMarcas_Out>();
+            var _model = new GestionMarcas_Out();
             string url = Constants.AsociadosRestUrl + "/v1/gestion_marcas";
             Utilidades.PrintLogStatic(ViewName, "Abriendo URL: " + url);
 
@@ -101,7 +101,7 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
                     string contentResponse = await response.Content.ReadAsStringAsync();
                     Utilidades.PrintLogStatic(ViewName, "httpResponse: " + contentResponse);
-                    _model = JsonSerializer.Deserialize<List<GestionMarcas_Out>>(contentResponse);
+                    _model = JsonSerializer.Deserialize<GestionMarcas_Out>(contentResponse);
                 }
                 else
                 {

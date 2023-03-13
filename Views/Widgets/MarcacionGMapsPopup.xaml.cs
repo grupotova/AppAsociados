@@ -11,10 +11,12 @@ public partial class MarcacionGMapsPopup : Popup
     private string ViewName = "MARCACION - GOOGLE MAPS";
     void closePopup(object? sender, EventArgs e) => Close();
 
-    public MarcacionGMapsPopup(string SkuId, string BaseId, int TareaConteoDiarioId)
+    public MarcacionGMapsPopup(string CoordenadasGPS)
     {
         InitializeComponent();
 
+        // Actualizar coordenadas GPS
+        webView.Source = "https://maps.google.com?q=" + CoordenadasGPS;
 
-    }
+	}
 }

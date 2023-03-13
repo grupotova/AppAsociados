@@ -5,5 +5,6 @@ namespace TOVA_API.Models.AppAsociados.V1
     {
         public bool ok { get; set; }
         public string mensajeError { get; set; }
+        public bool errorDuplicaTipoMarca { get; set; }
     }
 }

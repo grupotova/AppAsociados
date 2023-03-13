@@ -9,6 +9,6 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
 
         Task<List<GestionMarcasAll_Out>> GetMarcacionesAllAsync(int UsuarioId);
 
-        Task<List<GestionMarcas_Out>> PostMarcacionesAsync(GestionMarcas_In _InModel);
+        Task<GestionMarcas_Out> PostMarcacionesAsync(GestionMarcas_In _InModel);
     }
 }

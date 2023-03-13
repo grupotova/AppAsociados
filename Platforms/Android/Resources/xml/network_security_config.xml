@@ -7,5 +7,6 @@
 		<domain includeSubdomains="true">media-amazon.com</domain>
 		<domain includeSubdomains="true">grupotova.local</domain>
 		<domain includeSubdomains="true">m.media-amazon.com</domain>
+		<domain includeSubdomains="true">google.com</domain>
 	</domain-config>
 </network-security-config>

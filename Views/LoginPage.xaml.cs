@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using TOVA_APP_ASOCIADOS.Helpers;
+using TOVA_APP_ASOCIADOS.Models.Auth;
 using TOVA_APP_ASOCIADOS.Services.Auth;
 using TOVA_APP_ASOCIADOS.Services.ControlVersion;
 
@@ -70,7 +71,8 @@ public partial class LoginPage : ContentPage
             if (Usuario.Text.Length > 0 && Contrasena.Text.Length > 0)
             {
                 Utilidades.PrintLogStatic(ViewName, "Activar boton de ingreso.");
-                CambiarEstadoBotonIngresar(true);
+				Utilidades.PrintLogStatic(ViewName, "Contrasena: " + Contrasena.Text);
+				CambiarEstadoBotonIngresar(true);
             }
             else
             {
@@ -100,7 +102,7 @@ public partial class LoginPage : ContentPage
     }
 
 	// INFO: Autentifcacion de usuario (GUCService)
-	/*
+    /*
     private async Task<bool> Autenticacion(string login, string pass, string aplicacion)
     {
         string respService = null;
@@ -192,13 +194,20 @@ public partial class LoginPage : ContentPage
     }
     */
 
+
     // INFO: Autentificacion temporal por TOVA API
-	private async Task<bool> Autenticacion(string Usuario, string Contrasena, string AplicacionCodigo)
+    private async Task<bool> Autenticacion(string Usuario, string Contrasena, string AplicacionCodigo)
 	{
 		Utilidades.PrintLogStatic(ViewName, "Validando version del app = " + VersionTracking.CurrentVersion);
 
-		// Ejecutar API
-		var _items = await iloginService.GetLogin(Usuario, Contrasena);
+        // Ejecutar API
+        var _model = new Login_In()
+        {
+            Usuario = Usuario,
+            Contrasena = Contrasena,
+            AplicacionCodigo = Constants.GUCAplicacionCodigo
+		};
+		var _items = await iloginService.PostLogin(_model);
 
 		// Respuesta del Auth
 		if (_items.status == true)

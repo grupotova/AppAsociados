@@ -32,15 +32,17 @@ public partial class MarcacionesPage : ContentPage
     // INFO: Obtener datos del Header
     private void ObtenerDatosHeader()
     {
-        string GUCNombreUsuario = Preferences.Default.Get("guc_login", "Desconocido");
-        string GUCNombre = Preferences.Default.Get("guc_nombre", "Desconocido");
+		string GUCNombre = Preferences.Default.Get("guc_nombre", "Desconocido");
+		string GUCUsuario = Preferences.Default.Get("guc_login", "Desconocido");
+		string GUCNumeroAsociado = Preferences.Default.Get("guc_numero_asociado", "Desconocido");
 
         // Linea de Header
         HeaderLinea1.Text = "Hola, " + GUCNombre;
-        HeaderLinea2.Text = "Usuario: " + GUCNombreUsuario;
+        HeaderLinea2.Text = "Usuario: " + GUCUsuario;
+		HeaderLinea3.Text = "No. Asociado: " + GUCNumeroAsociado;
 
-        // Version del APP
-        string TipoDispositivo = Preferences.Default.Get("dispositivo_tipo", "D");
+		// Version del APP
+		string TipoDispositivo = Preferences.Default.Get("dispositivo_tipo", "D");
         HeaderControlVersion.Text = "Versión: v" + VersionTracking.CurrentVersion + TipoDispositivo; 
     }
 
@@ -66,7 +68,8 @@ public partial class MarcacionesPage : ContentPage
                     TipoMarcacion = item.tipoMarcacion == 1 ? "Entrada – " : "Salida – ",
                     Descripcion = "Lugar: " + item.baseNombre,
                     GeoReferencia = "Georeferencia: " + item.coordenadas_GPS,
-                    Hora = item.fechaCompleta.ToString()
+					CoordenadasGPS = item.coordenadas_GPS,
+					Hora = item.fechaCompleta.ToString()
                 });
             }
 
@@ -132,29 +135,31 @@ public partial class MarcacionesPage : ContentPage
             // Registrar marcacion
             string _usuarioId = Preferences.Default.Get("guc_login_id", "-1");
             int UsuarioId = int.Parse(_usuarioId);
-            Utilidades.PrintLogStatic(ViewName, "Registrando marcacion del usuario id = " + UsuarioId.ToString());
+            string NumeroAsociado = Preferences.Default.Get("guc_numero_asociado", "0");
+			Utilidades.PrintLogStatic(ViewName, "Registrando marcacion del usuario id = " + UsuarioId.ToString());
             var _model = new GestionMarcas_In()
             {
                 UsuarioId = UsuarioId,
-                Base = MarcacionBase,
-                TipoMarcacion = TipoMarcacion,
-                CoordenadasGPS = UbicacionActualGPS
+                NumeroAsociado = NumeroAsociado,
+				Base = MarcacionBase,
+				TipoMarcacion = TipoMarcacion,
+				CoordenadasGPS = UbicacionActualGPS
             };
             var _items = await _IGestionMarcas.PostMarcacionesAsync(_model);
 
             // Si el arreglo tiene objetos, mostrar el collectionview
-            if (_items.Count > 0)
+            if (_items.ok)
             {
-                if (_items[0].ok)
-                {
-                    await DisplayAlert("Marcación", "La nueva marcación ha sido registrado exitosamente.", "Cerrar");  
-                } else
-                {
-                    await DisplayAlert("Error", "Al intentar registrar esta marcación. Por favor intente nuevamente", "Cerrar");
-                }
+                await DisplayAlert("Marcación", "La nueva marcación ha sido registrado exitosamente.", "Cerrar");  
             } else
             {
-                await DisplayAlert("Error", "Al intentar registrar esta marcación. Por favor intente nuevamente", "Cerrar");
+                if (_items.errorDuplicaTipoMarca == true)
+                {
+					await DisplayAlert("Error", "El tipo de marcación ya se encuentra registrado. Por favor intente nuevamente.", "Cerrar");
+				} else
+                {
+					await DisplayAlert("Error", "Al intentar registrar esta marcación. Por favor intente nuevamente.", "Cerrar");
+				}
             }
 
             // Historial de gestion de marcacion
@@ -257,10 +262,11 @@ public partial class MarcacionesPage : ContentPage
     }
 
     // INFO: Abrir Popup de Google Maps
-    private void ViewCell_Tapped(object sender, EventArgs e)
+    private void Grid_Tapped(object sender, EventArgs e)
     {
-        var loadingPopup = new Widgets.LoadingPopup();
-        this.ShowPopup(loadingPopup);
+		var CoordenadasGPS = ((TappedEventArgs)e).Parameter;
+		var MarcacionGMaps = new Widgets.MarcacionGMapsPopup(CoordenadasGPS.ToString());
+        this.ShowPopup(MarcacionGMaps);
     }
 
     // OnAppearing
