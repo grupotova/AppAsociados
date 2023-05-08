@@ -7,7 +7,6 @@ namespace TOVA_APP_ASOCIADOS.Views;
 public partial class LoginPage : ContentPage
 {
 	private readonly IControlDeVersion iControlDeVersion = new ControlDeVersion();
-	private string MensajeAutentificacion = "";
 	private string ViewName = "LOGIN";
 	private PermissionStatus permissionStatus;
 
@@ -40,7 +39,7 @@ public partial class LoginPage : ContentPage
 		CambiarEstadoBotonIngresar(false);
 
 		// INFO: Validación de numero de asociado
-		bool respuesta = await DisplayAlert("Confirmación", "Esta seguro que número de asociado es: " + NumeroAsociado.Text + "?", "Yes", "No"); ;
+		bool respuesta = await DisplayAlert("Confirmación", "Esta seguro que número de asociado es: " + NumeroAsociado.Text + ".", "SÍ", "NO"); ;
 		if (respuesta)
 		{
 			Preferences.Default.Set("guc_numero_asociado", NumeroAsociado.Text);
@@ -49,7 +48,7 @@ public partial class LoginPage : ContentPage
 			NumeroAsociado.Text = "";
 
 			// Redireccionar
-			Utilidades.PrintLogStatic(ViewName, "Redireccion a Marcacion.");
+			Utilidades.PrintLogStatic(ViewName, "Redireccion a Gestión de marcacion.");
 			await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
 		}
 

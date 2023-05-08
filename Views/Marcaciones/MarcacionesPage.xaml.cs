@@ -32,13 +32,10 @@ public partial class MarcacionesPage : ContentPage
 	// INFO: Obtener datos del Header
 	private void ObtenerDatosHeader()
 	{
-		string GUCNombre = Preferences.Default.Get("guc_nombre", "Desconocido");
-		string GUCUsuario = Preferences.Default.Get("guc_login", "Desconocido");
 		string GUCNumeroAsociado = Preferences.Default.Get("guc_numero_asociado", "Desconocido");
 
 		// Linea de Header
-		HeaderLinea1.Text = "Hola, " + GUCNombre;
-		HeaderLinea2.Text = "Usuario: " + GUCUsuario;
+		HeaderLinea1.Text = "Hola, ";
 		HeaderLinea3.Text = "No. Asociado: " + GUCNumeroAsociado;
 
 		// Version del APP
@@ -49,10 +46,9 @@ public partial class MarcacionesPage : ContentPage
 	// INFO: Historial de Marcaciones
 	private async void HistoralGestionMarcacion()
 	{
-		string _usuarioId = Preferences.Default.Get("guc_login_id", "-1");
-		int UsuarioId = int.Parse(_usuarioId);
-		Utilidades.PrintLogStatic(ViewName, "Obteniendo marcaciones del usuario id = " + UsuarioId.ToString());
-		var response = await _IGestionMarcas.GetMarcacionesAllAsync(UsuarioId);
+		string NumeroAsociado = Preferences.Default.Get("guc_numero_asociado", "0");
+		Utilidades.PrintLogStatic(ViewName, "Obteniendo marcaciones del asociado = " + NumeroAsociado);
+		var response = await _IGestionMarcas.GetMarcacionesAllAsync(NumeroAsociado);
 		int _StatusCode = response.Item1;
 		var _items = response.Item2;
 
@@ -155,13 +151,10 @@ public partial class MarcacionesPage : ContentPage
 			}
 
 			// Registrar marcacion
-			string _usuarioId = Preferences.Default.Get("guc_login_id", "-1");
-			int UsuarioId = int.Parse(_usuarioId);
 			string NumeroAsociado = Preferences.Default.Get("guc_numero_asociado", "0");
-			Utilidades.PrintLogStatic(ViewName, "Registrando marcacion del usuario id = " + UsuarioId.ToString());
+			Utilidades.PrintLogStatic(ViewName, "Registrando marcacion del asociado = " + NumeroAsociado);
 			var _model = new GestionMarcas_In()
 			{
-				UsuarioId = UsuarioId,
 				NumeroAsociado = NumeroAsociado,
 				Base = MarcacionBase,
 				TipoMarcacion = TipoMarcacion,

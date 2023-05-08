@@ -8,8 +8,8 @@
 		// ---
 		// WebService - Desarrollo 
 		// ---
-		// public static string HostUrl = "192.168.58.50:8006"; // Local
-		public static string HostUrl = "192.168.10.178:8081"; // Servidor desarrollo
+		public static string HostUrl = "192.168.58.50:8006"; // Local
+		// public static string HostUrl = "192.168.10.178:8081"; // Servidor desarrollo
 
 
 		// ---

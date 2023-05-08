@@ -47,7 +47,6 @@
                         </StackLayout>
                         <StackLayout>
                             <Label x:Name="HeaderLinea1" Text="Hola, Desconocido" TextColor="White" FontSize="20" FontAttributes="Bold" />
-                            <Label x:Name="HeaderLinea2" Text="Usuario: Desconocido" TextColor="White" FontSize="16" />
                             <Label x:Name="HeaderLinea3" Text="No. Asociado: 000" TextColor="White" FontSize="16" />
                         </StackLayout>
                     </HorizontalStackLayout>
