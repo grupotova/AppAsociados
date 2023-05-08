@@ -4,6 +4,6 @@ namespace TOVA_APP_ASOCIADOS.Services.ControlVersion
 {
     interface IControlDeVersion
     {
-        Task<VerificarVersion_Out> GetControlVersionAsync(string AppNombre, string VersionActual);
+        Task<(int StatusCode, VerificarVersion_Out)> GetControlVersionAsync(string AppNombre, string VersionActual);
     }
 }

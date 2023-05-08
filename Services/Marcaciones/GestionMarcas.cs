@@ -11,9 +11,10 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
         public string ViewName = "GESTION DE MARCAS - HTTP CLIENT";
 
         // INFO: Obtener las bases georreferenciadas
-        public async Task<List<BasesAll_Out>> GetBasesAllAsync()
+        public async Task<(int StatusCode, List<BasesAll_Out>)> GetBasesAllAsync()
         {
-            var _client = new HttpClient();
+			int _StatusCode = 0;
+			var _client = new HttpClient();
             var _model = new List<BasesAll_Out>();
             string url = Constants.AsociadosRestUrl + "/v1/bases";
 
@@ -22,7 +23,12 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
             {
                 _client.BaseAddress = new Uri(url);
                 HttpResponseMessage response = await _client.GetAsync("");
-                if (response.IsSuccessStatusCode)
+
+				// Status Code 
+				_StatusCode = (int)response.StatusCode;
+				Utilidades.PrintLogStatic(ViewName, "Status Code: " + _StatusCode);
+
+				if (response.IsSuccessStatusCode)
                 {
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
                     string content = await response.Content.ReadAsStringAsync();
@@ -35,18 +41,20 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
             }
             catch (Exception ex)
             {
-                Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
+				_StatusCode = 0;
+				Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
             }
 
-            return _model;
-        }
+			return (_StatusCode, _model);
+		}
 
 
 
         // INFO: Obtener las marcaciones por Usuario Id
-        public async Task<List<GestionMarcasAll_Out>> GetMarcacionesAllAsync(int UsuarioId)
+        public async Task<(int StatusCode, List<GestionMarcasAll_Out>)> GetMarcacionesAllAsync(int UsuarioId)
         {
-            var _client = new HttpClient();
+			int _StatusCode = 0;
+			var _client = new HttpClient();
             var _model = new List<GestionMarcasAll_Out>();
             string url = Constants.AsociadosRestUrl + "/v1/gestion_marcas?UsuarioId=" + UsuarioId;
 
@@ -55,7 +63,12 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
             {
                 _client.BaseAddress = new Uri(url);
                 HttpResponseMessage response = await _client.GetAsync("");
-                if (response.IsSuccessStatusCode)
+
+				// Status Code 
+				_StatusCode = (int)response.StatusCode;
+				Utilidades.PrintLogStatic(ViewName, "Status Code: " + _StatusCode);
+
+				if (response.IsSuccessStatusCode)
                 {
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
                     string content = await response.Content.ReadAsStringAsync();
@@ -69,18 +82,20 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
             }
             catch (Exception ex)
             {
-                Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
+				_StatusCode = 0;
+				Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
             }
 
-            return _model;
-        }
+			return (_StatusCode, _model);
+		}
 
 
 
         // INFO: Insertar nueva marcacion
-        public async Task<GestionMarcas_Out> PostMarcacionesAsync(GestionMarcas_In _InModel)
+        public async Task<(int StatusCpde, GestionMarcas_Out)> PostMarcacionesAsync(GestionMarcas_In _InModel)
         {
-            var _client = new HttpClient();
+			int _StatusCode = 0;
+			var _client = new HttpClient();
             var _model = new GestionMarcas_Out();
             string url = Constants.AsociadosRestUrl + "/v1/gestion_marcas";
             Utilidades.PrintLogStatic(ViewName, "Abriendo URL: " + url);
@@ -96,7 +111,12 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
                 var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
                 requestMessage.Content = content;
                 HttpResponseMessage response = await _client.SendAsync(requestMessage);
-                if (response.IsSuccessStatusCode)
+
+				// Status Code 
+				_StatusCode = (int)response.StatusCode;
+				Utilidades.PrintLogStatic(ViewName, "Status Code: " + _StatusCode);
+
+				if (response.IsSuccessStatusCode)
                 {
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
                     string contentResponse = await response.Content.ReadAsStringAsync();
@@ -110,11 +130,12 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
             }
             catch (Exception ex)
             {
-                Utilidades.PrintLogStatic(ViewName, "Error METHOD = POST, URL = " + url + ", MENSAJE = " + ex.Message);
+				_StatusCode = 0;
+				Utilidades.PrintLogStatic(ViewName, "Error METHOD = POST, URL = " + url + ", MENSAJE = " + ex.Message);
             }
 
-            return _model;
-        }
+			return (_StatusCode, _model);
+		}
 
     }
 }

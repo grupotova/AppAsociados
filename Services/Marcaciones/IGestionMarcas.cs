@@ -5,10 +5,10 @@ namespace TOVA_APP_ASOCIADOS.Services.Marcaciones
 {
     interface IGestionMarcas
     {
-        Task<List<BasesAll_Out>> GetBasesAllAsync();
+        Task<(int StatusCode, List<BasesAll_Out>)> GetBasesAllAsync();
 
-        Task<List<GestionMarcasAll_Out>> GetMarcacionesAllAsync(int UsuarioId);
+        Task<(int StatusCode, List<GestionMarcasAll_Out>)> GetMarcacionesAllAsync(int UsuarioId);
 
-        Task<GestionMarcas_Out> PostMarcacionesAsync(GestionMarcas_In _InModel);
+        Task<(int StatusCode, GestionMarcas_Out)> PostMarcacionesAsync(GestionMarcas_In _model_In);
     }
 }

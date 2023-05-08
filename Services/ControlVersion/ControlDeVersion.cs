@@ -10,9 +10,10 @@ namespace TOVA_APP_ASOCIADOS.Services.ControlVersion
 
 
         // INFO: Obtener los parametros por codigo
-        public async Task<VerificarVersion_Out> GetControlVersionAsync(string AppNombre, string VersionActual)
+        public async Task<(int StatusCode, VerificarVersion_Out)> GetControlVersionAsync(string AppNombre, string VersionActual)
         {
-            var _client = new HttpClient();
+			int _StatusCode = 0;
+			var _client = new HttpClient();
             var _model = new VerificarVersion_Out();
             string url = Constants.ControlVersionRestUrl + "/verificar?App="+ AppNombre + "&VersionActual=" + VersionActual;
 
@@ -21,7 +22,12 @@ namespace TOVA_APP_ASOCIADOS.Services.ControlVersion
             {
                 _client.BaseAddress = new Uri(url);
                 HttpResponseMessage response = await _client.GetAsync("");
-                if (response.IsSuccessStatusCode)
+
+				// Status Code 
+				_StatusCode = (int)response.StatusCode;
+				Utilidades.PrintLogStatic(ViewName, "Status Code: " + _StatusCode);
+
+				if (response.IsSuccessStatusCode)
                 {
                     Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
                     string content = await response.Content.ReadAsStringAsync();
@@ -34,11 +40,12 @@ namespace TOVA_APP_ASOCIADOS.Services.ControlVersion
             }
             catch (Exception ex)
             {
-                Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
+				_StatusCode = 0;
+				Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
             }
 
-            return _model;
-        }
+			return (_StatusCode, _model);
+		}
 
     }
 }

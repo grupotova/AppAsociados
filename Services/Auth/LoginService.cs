@@ -10,41 +10,10 @@ namespace TOVA_APP_ASOCIADOS.Services.Auth
         public string ViewName = "AUTH - HTTP CLIENT";
 
 
-        // INFO: GET - Obtener los datos de accesos
-        public async Task<LoginModel> GetLogin(string Usuario, string Contrasena)
-        {
-            var _client = new HttpClient();
-            var _model = new LoginModel();
-            string url = Constants.AuthRestUrl + "/login?Usuario=" + Usuario + "&Contrasena=" + Contrasena + "&AplicacionCodigo=" + Constants.GUCAplicacionCodigo;
-
-            Utilidades.PrintLogStatic(ViewName, "Abriendo URL: " + url);
-            try
-            {
-                _client.BaseAddress = new Uri(url);
-                HttpResponseMessage response = await _client.GetAsync("");
-                if (response.IsSuccessStatusCode)
-                {
-                    Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
-                    string content = await response.Content.ReadAsStringAsync();
-                    Utilidades.PrintLogStatic(ViewName, "httpResponse: " + content);
-                    _model = JsonSerializer.Deserialize<LoginModel>(content);
-                } else
-                {
-                    Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
-                }
-            }
-            catch (Exception ex)
-            {
-                Utilidades.PrintLogStatic(ViewName, "Error METHOD = GET, URL = " + url + ", MENSAJE = " + ex.Message);
-            }
-
-            return _model;
-        }
-
-
 		// INFO: POST - Obtener los datos de accesos
-		public async Task<LoginModel> PostLogin(Login_In _InModel)
+		public async Task<(int StatusCode, LoginModel)> PostLogin(Login_In _InModel)
 		{
+			int _StatusCode = 0;
 			var _client = new HttpClient();
 			var _model = new LoginModel();
 			string url = Constants.AuthRestUrl + "/login";
@@ -58,6 +27,11 @@ namespace TOVA_APP_ASOCIADOS.Services.Auth
 				var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 				requestMessage.Content = content;
 				HttpResponseMessage response = await _client.SendAsync(requestMessage);
+
+				// Status Code 
+				_StatusCode = (int)response.StatusCode;
+				Utilidades.PrintLogStatic(ViewName, "Status Code: " + _StatusCode);
+
 				if (response.IsSuccessStatusCode)
 				{
 					Utilidades.PrintLogStatic(ViewName, "httpCode: " + response.StatusCode);
@@ -74,10 +48,11 @@ namespace TOVA_APP_ASOCIADOS.Services.Auth
 			}
 			catch (Exception ex)
 			{
+				_StatusCode = 0;
 				Utilidades.PrintLogStatic(ViewName, "Error METHOD = POST, URL = " + url + ", MENSAJE = " + ex.Message);
 			}
 
-			return _model;
+			return (_StatusCode, _model);
 		}
 
 	}

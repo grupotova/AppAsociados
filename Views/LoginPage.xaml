@@ -31,11 +31,7 @@
                             <Label HorizontalTextAlignment="Center" FontSize="18" FontAttributes="Bold" TextColor="Black" Margin="0,05" Text="Ingresa tus credenciales" />
 
                             <Frame Background="White" Margin="0,5" Padding="15,3" CornerRadius="10">
-                                <Entry x:Name="Usuario" TextColor="Black" FontSize="16" Placeholder="Usuario" PlaceholderColor="#515050" TextChanged="Usuario_TextChanged" toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference Contrasena}" />
-                            </Frame>
-
-                            <Frame Background="White" Margin="0,5" Padding="15,3" CornerRadius="10">
-                                <Entry x:Name="Contrasena" TextColor="Black" FontSize="16" IsPassword="True" Placeholder="Contraseña" PlaceholderColor="#515050" TextChanged="Contrasena_TextChanged" Completed="BotonIngresar_Clicked" />
+                                <Entry x:Name="NumeroAsociado" TextColor="Black" FontSize="16" Placeholder="Numero de asociado" PlaceholderColor="#515050" TextChanged="Usuario_TextChanged" toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference Contrasena}" />
                             </Frame>
 
                             <Button x:Name="BotonIngresar" Text="Ingresar" BackgroundColor="DarkGray" TextColor="White" FontSize="16" FontAttributes="Bold" Margin="0,3" Clicked="BotonIngresar_Clicked" />
