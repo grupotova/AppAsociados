@@ -110,6 +110,10 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Connected Services\" />
+	</ItemGroup>
+
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadGenericExceptionInfoBarTOVA_APP_ASOCIADOSHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionTOVA_APP_ASOCIADOSHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

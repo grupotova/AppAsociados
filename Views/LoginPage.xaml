@@ -21,11 +21,12 @@
 
               
                 <!-- Datos de ingresos -->
-                <Border VerticalOptions="End">
+                <Border VerticalOptions="EndAndExpand">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20,20,0,0" />
                     </Border.StrokeShape>
-                    <Frame VerticalOptions="EndAndExpand" BackgroundColor="White" Padding="10" Margin="0">
+                    
+                    <Frame BackgroundColor="White" Padding="10" Margin="0">
                         <StackLayout>
                             <Label HorizontalTextAlignment="Center" FontSize="18" FontAttributes="Bold" TextColor="Black" Margin="0,05" Text="Ingresa tus credenciales" />
 
@@ -40,7 +41,7 @@
                             <Button x:Name="BotonIngresar" Text="Ingresar" BackgroundColor="DarkGray" TextColor="White" FontSize="16" FontAttributes="Bold" Margin="0,3" Clicked="BotonIngresar_Clicked" />
 
                             <!-- App Version -->
-                            <Label x:Name="AppVersion" TextColor="Black" HorizontalTextAlignment="Center" FontSize="16" Margin="0,5"></Label>
+                            <Label x:Name="AppVersion" TextColor="Black" HorizontalTextAlignment="Center" FontSize="17" Margin="0,5"></Label>
                         </StackLayout>
                     </Frame>
                 </Border>

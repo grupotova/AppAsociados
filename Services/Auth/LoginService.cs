@@ -10,7 +10,7 @@ namespace TOVA_APP_ASOCIADOS.Services.Auth
         public string ViewName = "AUTH - HTTP CLIENT";
 
 
-        // INFO: Obtener los datos de accesos
+        // INFO: GET - Obtener los datos de accesos
         public async Task<LoginModel> GetLogin(string Usuario, string Contrasena)
         {
             var _client = new HttpClient();
@@ -42,7 +42,7 @@ namespace TOVA_APP_ASOCIADOS.Services.Auth
         }
 
 
-		// INFO: Obtener los datos de accesos
+		// INFO: POST - Obtener los datos de accesos
 		public async Task<LoginModel> PostLogin(Login_In _InModel)
 		{
 			var _client = new HttpClient();
