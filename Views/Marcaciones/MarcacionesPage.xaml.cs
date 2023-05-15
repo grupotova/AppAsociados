@@ -14,18 +14,10 @@ public partial class MarcacionesPage : ContentPage
 	ObservableCollection<TimelineCollection> TimeLineItem = new ObservableCollection<TimelineCollection>();
 	public ObservableCollection<TimelineCollection> _TimeLineItem { get { return TimeLineItem; } }
 	readonly IGestionMarcas _IGestionMarcas = new GestionMarcas();
-	public FirebaseRTDB db = new FirebaseRTDB();
 
 	public MarcacionesPage()
 	{
 		InitializeComponent();
-
-		// Obtener Header
-		SwitchBotones(3); // Desactivar boton en iniciar
-		ObtenerDatosHeader();
-
-		// Firebase
-		// db.NuevaPosicion();
 	}
 
 
@@ -302,11 +294,16 @@ public partial class MarcacionesPage : ContentPage
 	}
 
 	// OnAppearing
-	protected async override void OnAppearing()
+	protected override void OnAppearing()
 	{
 
 		base.OnAppearing();
-		// bool resultadoPermisosGPS = await SolicitarPermisos();
+
+		// Obtener Header
+		SwitchBotones(3); 
+		ObtenerDatosHeader();
+
+		// Historial
 		HistoralGestionMarcacion();
 	}
 }

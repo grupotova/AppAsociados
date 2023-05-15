@@ -13,6 +13,7 @@
             HorizontalOptions="CenterAndExpand"
             Padding="10,30"
             HorizontalTextAlignment="Center" /> 
+
         <Label 
             x:Name="Subtitulo" 
             FontSize="14"

@@ -14,17 +14,6 @@ public partial class LoginPage : ContentPage
 	{
 		InitializeComponent();
 
-		// Iniciar el APP desactivar el boton por default
-		CambiarEstadoBotonIngresar(false);
-
-		// App Version
-		AppVersion.Text = Constants.VersionApp;
-
-		// Solicitar Permisos
-		// SolicitarPermisosApp();
-
-		// Verificar version App
-		ControlVersionApp();
 
 	}
 
@@ -42,6 +31,7 @@ public partial class LoginPage : ContentPage
 		bool respuesta = await DisplayAlert("Confirmación", "Esta seguro que número de asociado es: " + NumeroAsociado.Text + ".", "SÍ", "NO"); ;
 		if (respuesta)
 		{
+			Preferences.Default.Set("guc_configurado", true);
 			Preferences.Default.Set("guc_numero_asociado", NumeroAsociado.Text);
 
 			// Limpiar 
@@ -147,14 +137,29 @@ public partial class LoginPage : ContentPage
 		permissionStatus = await Permissions.RequestAsync<Permissions.StorageWrite>();
 	}
 
-	// Verificar si esta configurado el tipo de dispositivo
-	private async void VerificarGUCSesion()
+	// Verificar si esta configurado el numero de asociado
+	private async void ValidarConfiguracion()
 	{
-		bool GucConfigurado = Preferences.Default.Get("guc_configurado", false);
-		if (GucConfigurado)
+		bool NumeroAsociadoConfigurado = Preferences.Default.Get("guc_configurado", false);
+		if (NumeroAsociadoConfigurado)
 		{
-			Utilidades.PrintLogStatic(ViewName, "GUC Configurado, forzar redireccion.");
-			await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
+			//Utilidades.PrintLogStatic(ViewName, "Numero de Asociado Configurado, forzar redireccion.");
+			//await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
+		} else
+		{
+			/*
+			// Iniciar el APP desactivar el boton por default
+			CambiarEstadoBotonIngresar(false);
+
+			// App Version
+			AppVersion.Text = Constants.VersionApp;
+
+			// Solicitar Permisos
+			// SolicitarPermisosApp();
+
+			// Verificar version App
+			ControlVersionApp();
+			*/
 		}
 	}
 
@@ -162,7 +167,7 @@ public partial class LoginPage : ContentPage
 	// Verificar esta configurado
 	protected override void OnAppearing()
 	{
-		VerificarGUCSesion();
 		base.OnAppearing();
+		ValidarConfiguracion();
 	}
 }

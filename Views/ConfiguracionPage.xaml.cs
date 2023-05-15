@@ -52,26 +52,40 @@ public partial class ConfiguracionPage : ContentPage
                 await Navigation.PushAsync(new LoginPage());
                 break;
 
+            default:
+				Utilidades.PrintLogStatic(ViewName, "Guardando preferencia - valor no obtenido");
+				break;
+
         }
     }
 
     // Verificar si esta configurado el tipo de dispositivo
-    private async void VerificarTipoDispositivo()
+    private async void ValidarConfiguracion()
     {
         bool DispositivoConfigurado = Preferences.Default.Get("dispositivo_configurado", false);
-        if (DispositivoConfigurado)
+		bool NumeroAsociadoConfigurado = Preferences.Default.Get("guc_configurado", false);
+
+        // Si esta configurado dispositivo y no numero de asociado
+		if (DispositivoConfigurado && NumeroAsociadoConfigurado == false)
         {
             Utilidades.PrintLogStatic(ViewName, "Dispositivo configurado, forzar redireccion.");
             await Navigation.PushAsync(new LoginPage());
-        }
-    }
+        } 
+        // Si esta configurado depositivo y tambien numero de asociado.
+        else if (DispositivoConfigurado && NumeroAsociadoConfigurado)
+        {
+			Utilidades.PrintLogStatic(ViewName, "Numero de Asociado Configurado, forzar redireccion.");
+			await Navigation.PushAsync(new Marcaciones.MarcacionesPage());
+		}
+
+	}
 
 
     // Verificar esta configurado
     protected override void OnAppearing()
     {
-        VerificarTipoDispositivo();
         base.OnAppearing();
-    }
+		ValidarConfiguracion();
+	}
 
 }
